@@ -1,4 +1,5 @@
 import configData from "./config.json";
+import {MAINNET_URL, TESTNET_URL} from '../common/constants/aptos';
 
 /**
  * This is global config for program to run, make sure check those configs carefully before run application
@@ -19,11 +20,11 @@ config.accountConfigs = configData["accountConfigs"]
 config.network = configData["network"];
 if (config.network === 'mainnet') {
   config.url = configData["mainnetUrl"] === "" ?
-    "https://fullnode.mainnet.aptoslabs.com"
-    : configData["mainnetUrl"];
+    MAINNET_URL :
+    configData["mainnetUrl"];
 } else if (config.network === 'testnet') {
   config.url = configData['testnetUrl'] === '' ?
-    "https://fullnode.testnet.aptoslabs.com" :
+    TESTNET_URL :
     configData['testnetUrl'];
 } else throw Error('Invalid network config, must be "mainnet" or "testnet"');
 
