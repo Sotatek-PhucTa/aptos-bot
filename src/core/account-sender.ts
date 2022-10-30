@@ -50,7 +50,8 @@ export class AccountSender {
     if (this.txnSent < this.txns.length) {
       const txSent = await this.client.submitSignedBCSTransaction(this.txns[this.txnSent]);
       if (waitForSuccess) await this.client.waitForTransaction(txSent.hash);
+      this.txnSent += 1;
     }
-    this.txnSent += 1;
+    console.log(`Sent all txn`);
   }
 }
