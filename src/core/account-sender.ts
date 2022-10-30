@@ -52,6 +52,6 @@ export class AccountSender {
       if (waitForSuccess) await this.client.waitForTransaction(txSent.hash);
       this.txnSent += 1;
     }
-    console.log(`Sent all txn`);
+    console.log(`Account ${this.account.address().hex()} sent all txn`);
   }
 }
