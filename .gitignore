@@ -1,4 +1,4 @@
 node_modules
 .idea
-src/data/account/*.json
-!src/data/account/account_example.json
+src/config/accounts/*.json
+!src/config/accounts/account_example.json
