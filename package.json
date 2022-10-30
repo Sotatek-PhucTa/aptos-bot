@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "aptos": "^1.3.16",
     "typescript": "^4.8.4"
   }
 }

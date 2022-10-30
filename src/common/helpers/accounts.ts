@@ -1,10 +1,14 @@
 import {AptosAccountConfig} from '../interfaces/aptos-account-config';
 import config from '../../config';
 import {loadDataFromFileAsType} from './utils';
+import {AptosAccount} from 'aptos';
 
-async function isValidatedAccountConfig(acc: AptosAccountConfig): Promise<[boolean, string]> {
-  return [true, null];
-}
+/**
+ * Load account configs from all files defined in config file
+ * @function loadAccountConfigs
+ * @returns {AptosAccountConfig[]} Array of AptosAccountConfig
+ * @throws When have an account defined more than once
+ */
 async function loadAccountConfigs(): Promise<AptosAccountConfig[]> {
   const accountConfigs: AptosAccountConfig[] = [];
   const definedAccounts: Map<String, String> = new Map<String, String>();
@@ -21,4 +25,23 @@ async function loadAccountConfigs(): Promise<AptosAccountConfig[]> {
     }
   }
   return accountConfigs;
+}
+
+/**
+ * Load aptos accounts from all files defined in config file
+ * @function loadAptosAccounts
+ * @returns {AptosAccount[]} List of aptos account
+ * @throws When have an account and corresponding private key aren't match
+ */
+export async function loadAptosAccounts(): Promise<AptosAccount[]> {
+  const accounts: AptosAccount[] = [];
+  const accountConfigs = await loadAccountConfigs();
+  for (const accountConfig of accountConfigs) {
+    const aptosAccount = new AptosAccount(Buffer.from(accountConfig.privateKey, 'hex'));
+    if (aptosAccount.address().toString() !== accountConfig.address) {
+      throw Error(`Account ${accountConfig.address} and private key aren't match`);
+    }
+    accounts.push(aptosAccount);
+  }
+  return accounts;
 }
