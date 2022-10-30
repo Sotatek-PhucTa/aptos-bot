@@ -1,5 +1,6 @@
 import configData from "./config.json";
 import {MAINNET_URL, TESTNET_URL} from '../common/constants/aptos';
+import {isEmptyValue} from '../common/helpers/utils';
 
 /**
  * This is global config for program to run, make sure check those configs carefully before run application
@@ -19,11 +20,11 @@ const config: Config = ({} as any) as Config;
 config.accountConfigs = configData["accountConfigs"]
 config.network = configData["network"];
 if (config.network === 'mainnet') {
-  config.url = configData["mainnetUrl"] === "" ?
+  config.url = isEmptyValue(configData["mainnetUrl"]) ?
     MAINNET_URL :
     configData["mainnetUrl"];
 } else if (config.network === 'testnet') {
-  config.url = configData['testnetUrl'] === '' ?
+  config.url = isEmptyValue(configData['testnetUrl']) ?
     TESTNET_URL :
     configData['testnetUrl'];
 } else throw Error('Invalid network config, must be "mainnet" or "testnet"');
