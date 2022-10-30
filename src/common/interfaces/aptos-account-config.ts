@@ -6,7 +6,7 @@
  * @member {string} privateKey private key of an account, in hex format
  * @member {gasPrice} gas price when construct tx, the higher gas price, the more chance we get nft
  */
-interface AptosAccountConfig {
+export interface AptosAccountConfig {
   address: string,
   privateKey: string,
   gasPrice: string,
