@@ -1,0 +1,6 @@
+{
+  "accountConfigs": [],
+  "network": "mainnet",
+  "mainnetUrl": "https://fullnode.mainnet.aptoslabs.com",
+  "testnetUrl": "https://fullnode.testnet.aptoslabs.com"
+}
