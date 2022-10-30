@@ -1,6 +1,6 @@
 {
   "accountConfigs": [
-    "./accounts/account1.json"
+    "src/config/accounts/account1.json"
   ],
   "network": "mainnet",
   "mainnetUrl": "https://fullnode.mainnet.aptoslabs.com",
