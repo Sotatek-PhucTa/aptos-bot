@@ -1,4 +1,5 @@
 import configData from "./config.json";
+import blueMoveData from "./blue-move.json";
 import {MAINNET_URL, TESTNET_URL} from '../common/constants/aptos';
 import {isEmptyValue} from '../common/helpers/utils';
 
@@ -30,3 +31,21 @@ if (config.network === 'mainnet') {
 } else throw Error('Invalid network config, must be "mainnet" or "testnet"');
 
 export default config;
+
+
+/**
+ * This is config for bluemove bot to automatically mint nft
+ * @interface BlueMove
+ * @member {string} factoryAddress: Address of factory of collection, each collection will have a factory,
+ * user must have to update this address before minting new any collection
+ * @member {Date} time: Time the collection will open
+ */
+export interface BlueMoveConfig {
+  factoryAddress: string,
+  time: Date,
+}
+
+const blueMoveConfig: BlueMoveConfig = ({} as any) as BlueMoveConfig;
+blueMoveConfig.factoryAddress = blueMoveData["factoryAddress"];
+blueMoveConfig.time = new Date(blueMoveData["time"]);
+export { blueMoveConfig };
