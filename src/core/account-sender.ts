@@ -37,7 +37,7 @@ export class AccountSender {
     for (let i = 0; i< numberOfTx; i++) {
       const rawTx = new RawTransaction(
         AccountAddress.fromHex(this.account.address()),
-        BigInt(sequenceNumber + i),
+        BigInt(parseInt(sequenceNumber) + i),
         new TransactionPayloadEntryFunction(entryFunctionPayload),
         BigInt(maxGasUnit),
         BigInt(this.gasPrice),
@@ -52,9 +52,12 @@ export class AccountSender {
     if (this.txnSent < this.txns.length) {
       const txSent = await this.client.submitSignedBCSTransaction(this.txns[this.txnSent]);
       if (waitForSuccess) await this.client.waitForTransaction(txSent.hash);
+      console.log(`Account ${this.account.address().hex()} sent message ${this.txnSent}`);
       this.txnSent += 1;
+    } else {
+      console.log(`Account ${this.account.address().hex()} sent all txn`);
+
     }
-    console.log(`Account ${this.account.address().hex()} sent all txn`);
   }
 
   toString(): string {
