@@ -33,15 +33,15 @@ async function loadAccountConfigs(): Promise<AptosAccountConfig[]> {
  * @returns {AptosAccount[]} List of aptos account
  * @throws When have an account and corresponding private key aren't match
  */
-export async function loadAptosAccounts(): Promise<AptosAccount[]> {
-  const accounts: AptosAccount[] = [];
+export async function loadAptosAccountsAndConfigs(): Promise<[AptosAccount, AptosAccountConfig][]> {
+  const results: [AptosAccount, AptosAccountConfig][] = [];
   const accountConfigs = await loadAccountConfigs();
   for (const accountConfig of accountConfigs) {
     const aptosAccount = new AptosAccount(Buffer.from(accountConfig.privateKey, 'hex'));
     if (aptosAccount.address().toString() !== accountConfig.address) {
       throw Error(`Account ${accountConfig.address} and private key aren't match`);
     }
-    accounts.push(aptosAccount);
+    results.push([aptosAccount, accountConfig]);
   }
-  return accounts;
+  return results;
 }

@@ -16,10 +16,10 @@ export class AccountSender {
   private txnSent: number;
   private gasPrice: number;
 
-  constructor(account: AptosAccount, config: AptosAccountConfig, url: string) {
+  constructor(account: AptosAccount, accountConfig: AptosAccountConfig, url: string) {
     this.account = account;
     this.client = new AptosClient(url);
-    this.gasPrice = parseInt(config.gasPrice);
+    this.gasPrice = parseInt(accountConfig.gasPrice);
   }
 
   async buildPreTxEntry(
