@@ -13,7 +13,6 @@ async function loadAccountConfigs(): Promise<AptosAccountConfig[]> {
   const accountConfigs: AptosAccountConfig[] = [];
   const definedAccounts: Map<String, String> = new Map<String, String>();
   for (const filePath of config.accountConfigs) {
-    console.log(filePath);
     const accs = await loadDataFromFileAsType<AptosAccountConfig[]>(filePath);
     for (const acc of accs) {
       if (definedAccounts.has(acc.address)) {

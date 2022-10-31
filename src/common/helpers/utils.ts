@@ -12,3 +12,7 @@ export async function loadDataFromFileAsType<T>(filePath: string): Promise<T> {
   const data = fs.readFileSync(filePath, 'utf-8');
   return JSON.parse(data) as T;
 }
+
+export async function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
