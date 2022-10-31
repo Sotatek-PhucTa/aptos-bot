@@ -1,4 +1,5 @@
 import {AptosAccount, AptosClient, TxnBuilderTypes, Types} from 'aptos';
+import {AptosAccountConfig} from '../common/interfaces/aptos-account-config';
 
 const {
   AccountAddress,
@@ -13,16 +14,17 @@ export class AccountSender {
   private readonly account: AptosAccount;
   private txns: Uint8Array[];
   private txnSent: number;
+  private gasPrice: number;
 
-  constructor(account: AptosAccount, url: string) {
+  constructor(account: AptosAccount, config: AptosAccountConfig, url: string) {
     this.account = account;
     this.client = new AptosClient(url);
+    this.gasPrice = parseInt(config.gasPrice);
   }
 
   async buildPreTxEntry(
     entryFunctionPayload: TxnBuilderTypes.EntryFunction,
     maxGasUnit: number,
-    gasPrice: number,
     expireTime: number,
     numberOfTx: number,
   ) {
@@ -38,7 +40,7 @@ export class AccountSender {
         BigInt(sequenceNumber + i),
         new TransactionPayloadEntryFunction(entryFunctionPayload),
         BigInt(maxGasUnit),
-        BigInt(gasPrice),
+        BigInt(this.gasPrice),
         BigInt(expireTime),
         new ChainId(chainId),
       )
@@ -53,5 +55,9 @@ export class AccountSender {
       this.txnSent += 1;
     }
     console.log(`Account ${this.account.address().hex()} sent all txn`);
+  }
+
+  async getAccount() {
+    return this.account;
   }
 }
