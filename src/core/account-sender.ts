@@ -57,7 +57,7 @@ export class AccountSender {
     console.log(`Account ${this.account.address().hex()} sent all txn`);
   }
 
-  async getAccount() {
-    return this.account;
+  toString(): string {
+    return `Account ${this.account.address()} with url ${this.client.nodeUrl} and gas price ${this.gasPrice}, have ${this.txns.length} prebuilt tx`;
   }
 }
