@@ -12,3 +12,10 @@ Firstly, all account for interacting to network must be defined in json files, d
 2. Run command: `ts-node src/scripts/bluemove-bot.ts`.
 
 Note that script first only mint public collection, and if collection requires Twitter verified account, user must verify by hand.
+
+<h3>Mint nft souffl3</h3>
+1. To run mint nft souffl3, user first need to update config in `src/config/souffl3.json`, includes:
+   - `collectionAddress`: Address of the collection
+   - `collectionName`: Name of the collection
+   - `time`: Time the collection will open
+2. Run command: `ts-node src/scripts/souffl3-bot.ts`
