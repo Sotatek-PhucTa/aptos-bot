@@ -6,6 +6,7 @@ const {
   ChainId,
   TransactionPayloadEntryFunction,
   RawTransaction,
+  Ed25519PublicKey,
 } = TxnBuilderTypes;
 
 
@@ -46,8 +47,17 @@ export class AccountSender {
         BigInt(expireTime),
         new ChainId(chainId),
       )
+      this.rawTxns.push(rawTx);
       this.txns.push(AptosClient.generateBCSTransaction(this.account, rawTx));
     }
+  }
+
+  async simulateTx() {
+    const tx = await this.client.simulateTransaction(
+      new Ed25519PublicKey(this.account.pubKey().toUint8Array()),
+      this.rawTxns[0],
+    )
+    console.log(tx);
   }
 
   async submitTx(waitForSuccess) {
