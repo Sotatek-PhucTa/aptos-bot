@@ -6,20 +6,25 @@ const {
   ChainId,
   TransactionPayloadEntryFunction,
   RawTransaction,
+  Ed25519PublicKey,
 } = TxnBuilderTypes;
 
 
 export class AccountSender {
   private client: AptosClient;
   private readonly account: AptosAccount;
-  private txns: Uint8Array[];
+  private readonly txns: Uint8Array[];
+  private readonly rawTxns: TxnBuilderTypes.RawTransaction[];
   private txnSent: number;
-  private gasPrice: number;
+  private readonly gasPrice: number;
 
   constructor(account: AptosAccount, accountConfig: AptosAccountConfig, url: string) {
     this.account = account;
     this.client = new AptosClient(url);
     this.gasPrice = parseInt(accountConfig.gasPrice);
+    this.txns = [];
+    this.txnSent = 0;
+    this.rawTxns = [];
   }
 
   async buildPreTxEntry(
@@ -28,8 +33,6 @@ export class AccountSender {
     expireTime: number,
     numberOfTx: number,
   ) {
-    this.txns = [];
-    this.txnSent = 0;
     const [{ sequence_number: sequenceNumber }, chainId] = await Promise.all([
       this.client.getAccount(this.account.address()),
       this.client.getChainId(),
@@ -44,8 +47,17 @@ export class AccountSender {
         BigInt(expireTime),
         new ChainId(chainId),
       )
+      this.rawTxns.push(rawTx);
       this.txns.push(AptosClient.generateBCSTransaction(this.account, rawTx));
     }
+  }
+
+  async simulateTx() {
+    const tx = await this.client.simulateTransaction(
+      new Ed25519PublicKey(this.account.pubKey().toUint8Array()),
+      this.rawTxns[0],
+    )
+    console.log(tx);
   }
 
   async submitTx(waitForSuccess) {
