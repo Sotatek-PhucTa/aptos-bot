@@ -37,7 +37,7 @@ const {
       entryFunction,
       70000,
       Math.trunc(deadline.getTime() / 1000),
-      2,
+      1,
     );
   }
   for (const accountSender of accountSenders) {
@@ -50,6 +50,7 @@ const {
     } else {
       await Promise.all(
         accountSenders.map((accountSender) => accountSender.submitTx(false))
+        //accountSenders.map((accountSender) => accountSender.simulateTx())
       )
     }
     await delay(1000);
